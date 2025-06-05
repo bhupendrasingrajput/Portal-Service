@@ -5,7 +5,7 @@ import morgan from 'morgan';
 
 import errorHandler from './middlewares/errorHandler.js';
 import globalRoutes from './routes/index.routes.js';
-
+import { extractUserMiddleware } from './middlewares/extractUserMiddleware.js';
 
 const startApp = async () => {
     const app = express();
@@ -23,6 +23,7 @@ const startApp = async () => {
 
     app.use(helmet());
     app.use(morgan('dev'));
+    app.use(extractUserMiddleware);
 
     app.use('/', globalRoutes);
     app.use(errorHandler);
