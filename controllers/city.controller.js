@@ -80,4 +80,40 @@ export const createCity = async (req, res, next) => {
         await t.rollback();
         next(error);
     }
-};  
+};
+
+export const getAllCities = async (req, res, next) => {
+    try {
+        const cities = await City.findAll({
+            attributes: { exclude: ['createdAt', 'updatedAt', 'uploadedBy'] },
+            include: [
+                { model: Feature, as: 'features', attributes: ['id', 'type', 'title', 'description'] },
+                { model: FAQ, as: 'faqs', attributes: ['id', 'question', 'answer'] },
+                { model: Media, as: 'media', attributes: ['id', 'type', 'title', 'url'] }
+            ],
+        });
+
+        const groupedCities = cities.map(city => {
+            const cityObj = city.toJSON();
+            const groupedFeatures = {};
+            if (cityObj.features && Array.isArray(cityObj.features)) {
+                cityObj.features.forEach(feature => {
+                    if (!groupedFeatures[feature.type]) groupedFeatures[feature.type] = [];
+                    groupedFeatures[feature.type].push(feature);
+                });
+            }
+            return {
+                ...cityObj,
+                features: groupedFeatures
+            };
+        });
+
+        return res.json({
+            success: true,
+            message: 'Cities fetched successfully!',
+            cities: groupedCities
+        })
+    } catch (error) {
+        next(error);
+    }
+}

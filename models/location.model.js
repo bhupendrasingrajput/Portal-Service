@@ -22,10 +22,23 @@ const Location = sequelize.define('Location',
         },
         cityId: {
             type: UUID,
+            allowNull: false,
             references: {
                 model: 'cities',
                 key: 'id'
             }
+        },
+        zoneId: {
+            type: UUID,
+            allowNull: false,
+            references: {
+                model: 'zones',
+                key: 'id'
+            }
+        },
+        uploadedBy: {
+            type: UUID,
+            allowNull: false
         }
     },
     {

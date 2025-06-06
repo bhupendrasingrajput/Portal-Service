@@ -1,5 +1,8 @@
 import express from 'express';
 import city_routes from './city.routes.js';
+import zone_routes from './zone.routes.js';
+import location_routes from './location.routes.js';
+
 const router = express.Router();
 
 router.get('/', (req, res) => {
@@ -12,5 +15,7 @@ router.get('/', (req, res) => {
 });
 
 router.use('/city', city_routes);
+router.use('/zone', zone_routes);
+router.use('/location', location_routes);
 
 export default router;

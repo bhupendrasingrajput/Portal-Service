@@ -32,6 +32,14 @@ const Feature = sequelize.define('Feature',
                 key: 'id',
             }
         },
+        zoneId: {
+            type: UUID,
+            allowNull: true,
+            references: {
+                model: 'zones',
+                key: 'id',
+            }
+        },
         locationId: {
             type: UUID,
             allowNull: true,

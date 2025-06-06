@@ -1,5 +1,5 @@
 import sequelize from '../config/database.js';
-import { ENUM, UUID, UUIDV4 } from 'sequelize';
+import { ENUM, UUID, UUIDV4, TEXT } from 'sequelize';
 
 const Zone = sequelize.define('Zone',
     {
@@ -24,6 +24,10 @@ const Zone = sequelize.define('Zone',
                 model: 'cities',
                 key: 'id'
             }
+        },
+        uploadedBy: {
+            type: UUID,
+            allowNull: false
         }
     },
     {

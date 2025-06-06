@@ -1,9 +1,10 @@
 import Broker from "./broker.model.js";
 import City from './city.model.js';
-import Feature from './feature.model.js';
 import FAQ from './faq.model.js';
-import Media from './media.model.js';
+import Feature from './feature.model.js';
 import Location from "./location.model.js";
+import Media from './media.model.js';
+import Zone from './zone.model.js';
 
 // Many-to-Many: Broker <-> City
 Broker.belongsToMany(City, { through: 'brokerOperatedCities', foreignKey: 'brokerId', otherKey: 'cityId' });
@@ -19,11 +20,27 @@ FAQ.belongsTo(City, { foreignKey: 'cityId' });
 City.hasMany(Media, { foreignKey: 'cityId', as: 'media', onDelete: 'CASCADE' });
 Media.belongsTo(City, { foreignKey: 'cityId' });
 
+// One-to-Many: Zone -> Feature, FAQ, Media
+Zone.hasMany(Feature, { foreignKey: 'zoneId', as: 'features', onDelete: 'CASCADE' });
+Feature.belongsTo(City, { foreignKey: 'zoneId' });
+
+Zone.hasMany(FAQ, { foreignKey: 'zoneId', as: 'faqs', onDelete: 'CASCADE' });
+FAQ.belongsTo(City, { foreignKey: 'zoneId' });
+
+Zone.hasMany(Media, { foreignKey: 'zoneId', as: 'media', onDelete: 'CASCADE' });
+Media.belongsTo(City, { foreignKey: 'zoneId' });
+
+// One-to-Many: Location -> Feature, FAQ, Media
+Location.hasMany(Feature, { foreignKey: 'locationId', as: 'features', onDelete: 'CASCADE' });
+Feature.belongsTo(City, { foreignKey: 'locationId' });
+
+Location.hasMany(FAQ, { foreignKey: 'locationId', as: 'faqs', onDelete: 'CASCADE' });
+FAQ.belongsTo(City, { foreignKey: 'locationId' });
+
+Location.hasMany(Media, { foreignKey: 'locationId', as: 'media', onDelete: 'CASCADE' });
+Media.belongsTo(City, { foreignKey: 'locationId' });
+
 export {
     Broker,
-    City,
-    Feature,
-    FAQ,
-    Media,
-    Location
+    City, FAQ, Feature, Location, Media, Zone
 };

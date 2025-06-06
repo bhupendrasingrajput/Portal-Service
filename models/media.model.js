@@ -24,6 +24,22 @@ const Media = sequelize.define('Media',
             type: STRING,
             allowNull: false
         },
+        cityId: {
+            type: UUID,
+            allowNull: true,
+            references: {
+                model: 'cities',
+                key: 'id',
+            }
+        },
+        zoneId: {
+            type: UUID,
+            allowNull: true,
+            references: {
+                model: 'zones',
+                key: 'id',
+            }
+        },
         locationId: {
             type: UUID,
             allowNull: true,
