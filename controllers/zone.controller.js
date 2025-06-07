@@ -125,7 +125,7 @@ export const getAllZones = async (req, res, next) => {
             include: include
         });
 
-        const groupedZones = zones.map(zone => {
+        const groupedZones = zones?.map(zone => {
             const zoneObj = zone.toJSON();
             const groupedFeatures = {};
             if (zoneObj.features && Array.isArray(zoneObj.features)) {

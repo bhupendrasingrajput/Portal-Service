@@ -93,7 +93,7 @@ export const getAllCities = async (req, res, next) => {
             ],
         });
 
-        const groupedCities = cities.map(city => {
+        const groupedCities = cities?.map(city => {
             const cityObj = city.toJSON();
             const groupedFeatures = {};
             if (cityObj.features && Array.isArray(cityObj.features)) {

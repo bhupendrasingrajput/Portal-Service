@@ -134,10 +134,25 @@ export const getAllLocations = async (req, res, next) => {
             include: include
         })
 
+        const groupedLocations = locations?.map(location => {
+            const locationObj = location.toJSON();
+            const groupedFeatures = {};
+            if (locationObj.features && Array.isArray(locationObj.features)) {
+                locationObj.features.forEach(feature => {
+                    if (!groupedFeatures[feature.type]) groupedFeatures[feature.type] = [];
+                    groupedFeatures[feature.type].push(feature);
+                });
+            }
+            return {
+                ...locationObj,
+                features: groupedFeatures
+            };
+        });
+
         return res.json({
             success: true,
             message: 'Locations fetched!',
-            locations
+            locations: groupedLocations
         })
     } catch (error) {
         next(error);

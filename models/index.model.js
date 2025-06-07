@@ -5,6 +5,10 @@ import Feature from './feature.model.js';
 import Location from "./location.model.js";
 import Media from './media.model.js';
 import Zone from './zone.model.js';
+import Builder from "./builder.model.js";
+import BuilderEmployee from './builderEmployee.js'
+import BuilderHistory from "./builderHistory.js";
+import BuilderHistoryImage from "./builderHistoryImage.js";
 
 // Many-to-Many: Broker <-> City
 Broker.belongsToMany(City, { through: 'brokerOperatedCities', foreignKey: 'brokerId', otherKey: 'cityId' });
@@ -40,7 +44,20 @@ FAQ.belongsTo(City, { foreignKey: 'locationId' });
 Location.hasMany(Media, { foreignKey: 'locationId', as: 'media', onDelete: 'CASCADE' });
 Media.belongsTo(City, { foreignKey: 'locationId' });
 
+// One-to-Many: Builder -> BuilderHistory
+Builder.hasMany(BuilderHistory, { foreignKey: 'builderId', as: 'histories', onDelete: 'CASCADE' });
+BuilderHistory.belongsTo(Builder, { foreignKey: 'builderId' });
+
+// One-to-Many: BuilderHistory -> BuilderHistoryImage
+BuilderHistory.hasMany(BuilderHistoryImage, { foreignKey: 'builderHistoryId', as: 'images', onDelete: 'CASCADE' });
+BuilderHistoryImage.belongsTo(BuilderHistory, { foreignKey: 'builderHistoryId' });
+
+// One-to-Many: Builder -> BuilderEmployee
+Builder.hasMany(BuilderEmployee, { foreignKey: 'builderId', as: 'employees', onDelete: 'CASCADE' });
+BuilderEmployee.belongsTo(Builder, { foreignKey: 'builderId' });
+
 export {
     Broker,
-    City, FAQ, Feature, Location, Media, Zone
+    City, FAQ, Feature, Location, Media, Zone,
+    Builder, BuilderEmployee, BuilderHistory, BuilderHistoryImage
 };
