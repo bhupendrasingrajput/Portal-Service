@@ -10,7 +10,6 @@ const Zone = sequelize.define('Zone',
         },
         name: {
             type: ENUM('south', 'north', 'east', 'west', 'central'),
-            unique: true,
             defaultValue: 'central'
         },
         description: {

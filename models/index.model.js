@@ -9,6 +9,19 @@ import Builder from "./builder.model.js";
 import BuilderEmployee from './builderEmployee.js'
 import BuilderHistory from "./builderHistory.js";
 import BuilderHistoryImage from "./builderHistoryImage.js";
+import Amenity from "./amenity.model.js";
+
+// City <-> Zone (One-to-Many)
+City.hasMany(Zone, { foreignKey: 'cityId', as: 'zones', onDelete: 'CASCADE' });
+Zone.belongsTo(City, { foreignKey: 'cityId', as: 'city' });
+
+// City <-> Location (One-to-Many)
+City.hasMany(Location, { foreignKey: 'cityId', as: 'locations', onDelete: 'CASCADE' });
+Location.belongsTo(City, { foreignKey: 'cityId', as: 'city' });
+
+// Zone <-> Location (One-to-Many)
+Zone.hasMany(Location, { foreignKey: 'zoneId', as: 'locations', onDelete: 'CASCADE' });
+Location.belongsTo(Zone, { foreignKey: 'zoneId', as: 'zone' });
 
 // Many-to-Many: Broker <-> City
 Broker.belongsToMany(City, { through: 'brokerOperatedCities', foreignKey: 'brokerId', otherKey: 'cityId' });
@@ -59,5 +72,6 @@ BuilderEmployee.belongsTo(Builder, { foreignKey: 'builderId' });
 export {
     Broker,
     City, FAQ, Feature, Location, Media, Zone,
-    Builder, BuilderEmployee, BuilderHistory, BuilderHistoryImage
+    Builder, BuilderEmployee, BuilderHistory, BuilderHistoryImage,
+    Amenity
 };

@@ -123,14 +123,17 @@ export const getAllLocations = async (req, res, next) => {
         if (!city) throw new ApiError(404, 'No valid city found!');
 
         const include = exclude ? undefined : [
+            { model: Zone, as: 'zone', attributes: ['name'] },
             { model: Feature, as: 'features', attributes: ['id', 'type', 'title', 'description'] },
             { model: FAQ, as: 'faqs', attributes: ['id', 'question', 'answer'] },
             { model: Media, as: 'media', attributes: ['id', 'type', 'title', 'url'] }
         ];
 
+        const attributes = exclude ? ['id', 'name'] : ['id', 'name', 'description', 'coordinates'];
+
         const locations = await Location.findAll({
             where: { cityId },
-            attributes: ['id', 'name', 'description', 'coordinates'],
+            attributes: attributes,
             include: include
         })
 
